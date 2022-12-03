@@ -1,0 +1,28 @@
+--Create a grocery store database
+
+CREATE TABLE store 
+(id INTEGER PRIMARY KEY, item TEXT, price INTEGER, quantity INTEGER, aisle INTEGER);
+
+INSERT INTO store VALUES 
+(1, "toothbrush", 2, 4, 7),
+(2, "bucket", 4, 4, 7),
+(3, "dish", 6, 4, 3),
+(4, "mug", 2, 6, 7),
+(5, "pillow", 7, 4, 4),
+(6, "gum", 1, 4, 7),
+(7, "blanket", 3, 6, 7),
+(8, "chocolate", 4, 4, 7),
+(9, "pumpkin", 6, 4, 7),
+(10, "flowers", 8, 5, 4),
+(11, "journal", 5, 4, 7),
+(12, "bandana", 2, 4, 7),
+(13, "rug", 3, 4, 7),
+(14, "eyedrops", 9, 4, 6),
+(15, "brocolli", 10, 4, 7)
+;
+
+--display database ordered by price greater than $5
+SELECT * FROM store WHERE price < 5 ORDER BY price;
+
+--what is the sum of the quantity of items grouped by aisle?
+SELECT id, aisle, SUM(quantity) FROM store GROUP BY aisle
