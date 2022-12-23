@@ -146,8 +146,11 @@ FROM topmovies
 GROUP BY release_years;
     
 /* What interesting ways are there to filter the data (using AND/OR)? */
-/* WHERE & AND */
-SELECT * FROM topmovies WHERE studio = 'Uni.' AND worldwide > 1000;
-
 /* WHERE */
 SELECT * FROM topmovies WHERE worldwide > 2000;
+
+/* AND */
+SELECT * FROM topmovies WHERE studio = 'Uni.' AND worldwide > 1000;
+
+/* OR */ 
+SELECT * FROM topmovies WHERE studio = 'Uni.' OR studio = "Fox";
