@@ -1,0 +1,73 @@
+/* From Khan Academy: In this project, you’re going to make your own table with some small set of “famous people”, then make more tables about things they do and join those to create nice human readable lists. */
+
+/* This dataset contains two tables, the first table includes celebrities name and career (either actor or singer), and the second includes the title of the song or movie they released */
+
+CREATE TABLE celebrities (id INTEGER PRIMARY KEY AUTOINCREMENT, fullname TEXT, career TEXT);
+INSERT into celebrities (fullname, career)
+VALUES
+("Sandra Bullock", "Actor"),
+("Alan Rickman", "Actor"),
+("Jennifer Aniston", "Actor"),
+("Sofia Vergara", "Actor"),
+("Penelope Cruz", "Actor"),
+("Shakira", "Singer"),
+("Tzuyu Chou", "Singer"),
+("Michael Buble", "Singer"),
+("Britney Spears", "Singer"),
+("Mariah Carey", "Singer");
+
+SELECT * FROM celebrities;
+
+CREATE TABLE workreleased (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, year_released INTEGER, artist_id INTEGER);
+INSERT into workreleased (title, year_released, artist_id)
+VALUES
+("The Blind Side", 2009, 1),
+("The Proposal", 2009, 1),
+("Harry Potter and the Half Blood Prince", 2009, 2),
+("Love Actually", 2003, 2),
+("Murder Mystery", 2019, 3),
+("The Switch", 2010, 3),
+("Chef", 2014, 4),
+("Hot Pursuit", 2015, 4),
+("Loving Pablo", 2017, 5),
+("Nine", 2009, 5),
+("Whenever Wherever", 2001, 6),
+("She Wolf", 2009, 6),
+("Fancy", 2019, 7),
+("Alcohol Free", 2021, 7),
+("Just Haven't Met You Yet", 2010, 8),
+("Sway", 2003, 8),
+("Toxic", 2003, 9),
+("Circus", 2008, 9),
+("Obsessed", 2009, 10),
+("Emotions", 1991, 10);
+
+SELECT * FROM workreleased;
+
+/* Left Outer Joins */
+/* Showcases artist name, career, title of work released, and the year work was released in */
+SELECT fullname, career, title, year_released
+    FROM celebrities
+    LEFT OUTER JOIN workreleased
+    ON celebrities.id = artist_id;
+
+/* Showcases actor's name, title of work released, and the year work was released in */
+SELECT fullname, title AS film_title, year_released
+    FROM celebrities
+    LEFT OUTER JOIN workreleased
+    ON celebrities.id = artist_id
+    WHERE career = "Actor";
+    
+/* Showcases singer's name, title of work released, and the year work was released in */
+SELECT fullname, title AS song_title, year_released
+    FROM celebrities
+    LEFT OUTER JOIN workreleased
+    ON celebrities.id = artist_id
+    WHERE career = "Singer";
+    
+/* Showcases singer's name, title of work released, and the year work was released in if earlier than the year 2005 */
+SELECT fullname, title AS song_title, year_released
+    FROM celebrities
+    LEFT OUTER JOIN workreleased
+    ON celebrities.id = artist_id
+    WHERE career = "Singer" AND year_released < 2005;
