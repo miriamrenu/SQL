@@ -1,0 +1,61 @@
+/* Spotify Data Analysis in SQLLITE */
+/* Downloaded dataset from Kaggle and created table to insert data */
+
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL )
+
+SELECT * FROM BIT_DB.Spotifydata;
+
+/* Who are the top 5 artists based on popularity */
+SELECT artist_name, popularity FROM BIT_DB.Spotifydata
+ORDER BY popularity DESC
+LIMIT 5;
+
+/* What are the top 3 most popular tracks */
+SELECT track_name, popularity FROM BIT_DB.Spotifydata
+WHERE popularity = (SELECT max(popularity) FROM BIT_DB.Spotifydata);
+
+/* What is the longest duration of a track? */
+SELECT track_name, duration_ms FROM BIT_DB.Spotifydata
+WHERE duration_ms = (SELECT max(duration_ms) FROM BIT_DB.Spotifydata);
+
+/* What is the average danceability by artist */
+SELECT artist_name, track_name, avg(danceability) FROM BIT_DB.Spotifydata
+GROUP BY artist_name, track_name
+ORDER BY danceability desc;
+
+/* Which songs have the highest instrumentalness? (Limit until songs instrumentalness reach 0) */
+SELECT track_name, artist_name, CAST(instrumentalness AS decimal(5,2)) AS instrumental FROM BIT_DB.Spotifydata
+ORDER BY instrumental DESC
+LIMIT 20;
+
+/* Which artists have higher than 3 tracks listed in this table? */
+SELECT count(track_name), artist_name FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+HAVING count(track_name) > 3;
+
+/* How many tracks have Doja Cat as the artist? */
+SELECT count(track_name), artist_name FROM BIT_DB.Spotifydata
+WHERE artist_name = 'Doja Cat';
+
+/* What are the 4 tracks from Doja Cat? Rank by popularity */
+SELECT track_name, artist_name, popularity FROM BIT_DB.Spotifydata
+WHERE artist_name = 'Doja Cat'
+ORDER BY popularity DESC;
